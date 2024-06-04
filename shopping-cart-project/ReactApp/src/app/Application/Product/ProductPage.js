@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import Rating from "./ProductRating";
 
 const ProductPage = () => {
   // Get products from store
@@ -21,6 +22,7 @@ const ProductPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(products);
     // Find and set product details
     setProduct(products.find((p) => p._id == productId));
   }, [product, productId]);
@@ -57,6 +59,9 @@ const ProductPage = () => {
             </li>
             <li className="list-group-item">
               <h4>Description: {product && product.description}</h4>
+            </li>
+            <li className="list-group-item">
+              Rating: {product && <Rating rating={product.rating} />}
             </li>
             <li className="list-group-item">
               Price: ${product && product.price}
