@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import UserCheckoutDetails from "./UserCheckoutDetails";
+import PaymentCheckout from "./PaymentCheckout";
 import { useSelector } from "react-redux";
 
-const CartTotal = () => {
+const CheckoutPage = () => {
   // Get access to cart
   const items = useSelector((store) => store.cartReducer.cart.items);
 
@@ -24,7 +25,7 @@ const CartTotal = () => {
             productId: product._id,
             name: product.name,
             price: product.price,
-            selectdQuantity: item.quantity,
+            selectedQuantity: item.quantity,
             productQuantity: product.quantity,
             image: product.image.url,
           };
@@ -38,27 +39,20 @@ const CartTotal = () => {
 
   useEffect(() => {
     mapCartItemsToProducts();
-  }, [items, products])
+  }, [items, products]);
 
   return (
-    <div className="card">
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item">
-          <h3>
-            Subtotal ({cartItems.reduce((acc, item) => acc + item.selectdQuantity, 0)})
-            items
-          </h3>
-          ${cartItems
-              .reduce((acc, item) => acc + item.selectdQuantity * item.price, 0)
-              .toFixed(2)}
-        </li>
-        <li className="list-group-item">
-          <Link to="/checkout" className="btn btn-outline-dark">
-            Checkout
-          </Link>
-        </li>
-      </ul>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-9">
+          <UserCheckoutDetails items={cartItems} />
+        </div>
+        <div className="col-md-3">
+          <PaymentCheckout items={cartItems} />
+        </div>
+      </div>
     </div>
   );
 };
-export default CartTotal;
+
+export default CheckoutPage;
