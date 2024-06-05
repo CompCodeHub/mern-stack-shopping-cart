@@ -22,7 +22,6 @@ const ProductPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(products);
     // Find and set product details
     setProduct(products.find((p) => p._id == productId));
   }, [product, productId]);
