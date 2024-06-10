@@ -31,14 +31,22 @@ let Header = (props) => {
             {" "}
             About{" "}
           </NavLink>
-          <NavLink to="/hobbies" className="button" activeclassname="true">
-            {" "}
-            Hobbies{" "}
-          </NavLink>
-          <NavLink to="/products" className="button" activeclassname="true">
-            {" "}
-            Products{" "}
-          </NavLink>
+          {user._id && (
+            <>
+              <NavLink to="/hobbies" className="button" activeclassname="true">
+                {" "}
+                Hobbies{" "}
+              </NavLink>
+              <NavLink to="/products" className="button" activeclassname="true">
+                {" "}
+                Products{" "}
+              </NavLink>
+              <NavLink to="/coupons" className="button" activeclassname="true">
+                {" "}
+                Coupons{" "}
+              </NavLink>{" "}
+            </>
+          )}
         </div>
 
         <div className="col text-end me-5">

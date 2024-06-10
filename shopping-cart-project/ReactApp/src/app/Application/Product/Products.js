@@ -7,6 +7,9 @@ const Products = () => {
   // Get products from the store
   const products = useSelector((store) => store.productReducer.products);
 
+  // Get user from store
+  const user = useSelector((store) => store.userReducer.user);
+
   // for navigation
   const navigate = useNavigate();
 
@@ -23,14 +26,16 @@ const Products = () => {
         <div className="col-6">
           <h2>Products</h2>
         </div>
-        <div className="col-6 text-end">
-          <a
-            onClick={() => navigate("/products/create")}
-            className="btn btn-primary"
-          >
-            Create Product
-          </a>
-        </div>
+        {user.userName === "admin" && (
+          <div className="col-6 text-end">
+            <a
+              onClick={() => navigate("/products/create")}
+              className="btn btn-primary"
+            >
+              Create Product
+            </a>
+          </div>
+        )}
       </div>
       <div className="row mb-4">
         {products ? (
@@ -52,7 +57,10 @@ const Products = () => {
                     <p className="card-text">{product.description}</p>
                     <p className="card-text">Price: ${product.price}</p>
                   </Link>
-                  <a onClick={() => navigate(`/cart/${product._id}?quantity=1`)} className="btn btn-primary mt-4">
+                  <a
+                    onClick={() => navigate(`/cart/${product._id}?quantity=1`)}
+                    className="btn btn-primary mt-4"
+                  >
                     Add to Cart
                   </a>
                 </div>
