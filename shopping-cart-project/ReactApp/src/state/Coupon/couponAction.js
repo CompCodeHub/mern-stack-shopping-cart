@@ -1,8 +1,8 @@
 import * as actionTypes from "../actionTypes";
 
-export const SaveCouponToStore = (couponValue) => {
+export const SaveCouponToStore = (coupon) => {
     return {
       type: actionTypes.SAVE_COUPON_TO_STORE,
-      payload: couponValue,
+      payload: coupon,
     };
   };

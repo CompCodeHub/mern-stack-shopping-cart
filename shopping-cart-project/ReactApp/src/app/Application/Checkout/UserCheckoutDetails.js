@@ -9,8 +9,6 @@ const UserCheckoutDetails = ({ items }) => {
   const cart = useSelector((store) => store.cartReducer.cart);
 
   useEffect(() => {
-    console.log(cart);
-    console.log(items);
   }, [user, items]);
 
   return (

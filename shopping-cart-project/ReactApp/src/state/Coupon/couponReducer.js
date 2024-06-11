@@ -1,7 +1,10 @@
 import * as actionTypes from "../actionTypes";
 
 const initialState = {
-  coupon: "",
+  coupon: {
+    code: "",
+    discount: 0
+  },
 };
 
 const couponReducer = (state = initialState, action) => {
