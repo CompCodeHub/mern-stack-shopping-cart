@@ -22,6 +22,7 @@ import ShoppingCart from "./Application/Cart/ShoppingCart";
 import ProductPage from "./Application/Product/ProductPage";
 import CheckoutPage from "./Application/Checkout/CheckoutPage";
 import Coupon from "./Application/Coupon/Coupon";
+import OrdersPage from "./Application/Order/OrdersPage";
 
 export default class ApplicationComponent extends Component {
   //props - is the set of properties html + js which needs to be available in every component
@@ -87,6 +88,7 @@ export default class ApplicationComponent extends Component {
             <Route path="coupons" element={<Coupon />} />
             <Route path="hobbies" element={<Hobbies />} />
             <Route path="products" element={<Products />} />
+            <Route path="orders" element={<OrdersPage />} />
             <Route path="products/create" element={<ProductCreate />} />
             <Route path="products/:id" element={<ProductPage />} />
             <Route path="cart/:productId?" element={<ShoppingCart />} />

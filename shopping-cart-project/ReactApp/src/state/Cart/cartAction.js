@@ -29,6 +29,13 @@ export const UpdateCartQuantity = (productId, quantity) => {
   };
 };
 
+export const ClearCart = () => {
+  return {
+    type: actionTypes.CLEAR_CART,
+  };
+};
+
+
 export const FetchUserCart = (userId) => {
   return async (dispatch) => {
     try {
@@ -49,4 +56,14 @@ export const SaveCartToDB = (userId, products) => {
           console.error(error);
         }
       };
+}
+
+export const ClearCartFromDB = (userId) => {
+   return async (dispatch) => {
+       try {
+         await axios.delete(`http://localhost:9000/cart/api/cart/${userId}`);
+       } catch (error) {
+         console.error(error);
+       }
+     };
 }

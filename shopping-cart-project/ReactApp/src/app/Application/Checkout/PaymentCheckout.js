@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { PlaceOrderAction } from "../../../state/Order/orderAction";
+import { useSelector } from "react-redux";
+import { ClearCart, ClearCartFromDB } from "../../../state/Cart/cartAction";
 
 const PaymentCheckout = ({ items }) => {
   // Get search params
   const [searchParams] = useSearchParams();
+
+  // for dispatching actions
+  const dispatch = useDispatch();
+
+  // for navigation
+  const navigate = useNavigate();
+
+  // Get user state from store
+  const user = useSelector((store) => store.userReducer.user);
 
   // Get quantity from search params
   const discount = searchParams.get("discount");
@@ -28,9 +41,8 @@ const PaymentCheckout = ({ items }) => {
 
   // Calculates subtotal
   const calculateSubtotal = () => {
-
     // calculate subtotal
-   const amount = items
+    const amount = items
       .reduce((acc, item) => acc + item.selectedQuantity * item.price, 0)
       .toFixed(2);
 
@@ -41,12 +53,12 @@ const PaymentCheckout = ({ items }) => {
   const calculateDiscount = () => {
     const amount = parseFloat((subTotal * (discount / 100)).toFixed(2));
     setDiscountAmount(amount);
-  }
+  };
 
   // Calculates shipping
   const calculateShipping = () => {
     if (subTotal < 100) {
-      const amount = parseFloat((subTotal * 0.10).toFixed(2)); // 10% of subtotal
+      const amount = parseFloat((subTotal * 0.1).toFixed(2)); // 10% of subtotal
       setShipping(amount);
     } else {
       setShipping(0);
@@ -61,7 +73,9 @@ const PaymentCheckout = ({ items }) => {
 
   // Calculates final total price
   const calculateTotal = () => {
-    const amount = parseFloat(((subTotal - discountAmount) + shipping + tax).toFixed(2));
+    const amount = parseFloat(
+      (subTotal - discountAmount + shipping + tax).toFixed(2)
+    );
     setTotal(amount);
   };
 
@@ -73,11 +87,43 @@ const PaymentCheckout = ({ items }) => {
     calculateTotal();
   }, [items, subTotal, discount, shipping, tax, total]);
 
-  // Mock method for payment
+  // method for payment
   const makePayment = () => {
+    // Set payment message
     setPaymentMessage("Payment successful!");
+
+    // Get order items to save
+    const orderItems = items.map(({ productId, selectedQuantity }) => ({
+      product: productId,
+      quantity: selectedQuantity,
+    }));
+
+    // Dispatch place order action
+    dispatch(
+      PlaceOrderAction({
+        buyer: user._id,
+        items: orderItems,
+        shippingAddress: user.street,
+        subTotal,
+        discount: discountAmount,
+        shipping,
+        tax,
+        total,
+        paidAt: new Date(),
+        status: "IN TRANSIT",
+      })
+    );
+
+    // clear cart
+    dispatch(ClearCartFromDB(user._id));
+    dispatch(ClearCart())
+
     setTimeout(() => {
+      // reset payment message
       setPaymentMessage(null);
+
+      // navigate to orders
+      navigate("/orders");
     }, 2000);
   };
 
@@ -91,14 +137,13 @@ const PaymentCheckout = ({ items }) => {
         <li className="list-group-item">
           <div className="row">
             <div className="col">Items</div>
-            <div className="col">
-              $
-              {subTotal}
-            </div>
+            <div className="col">${subTotal}</div>
           </div>
           <div className="row">
             <div className="col">Discount</div>
-            <div className="col">${discountAmount}({discount}%)</div>
+            <div className="col">
+              ${discountAmount}({discount}%)
+            </div>
           </div>
           <div className="row">
             <div className="col">Shipping</div>
@@ -110,10 +155,7 @@ const PaymentCheckout = ({ items }) => {
           </div>
           <div className="row">
             <div className="col">Total</div>
-            <div className="col">
-              $
-              {total}
-            </div>
+            <div className="col">${total}</div>
           </div>
         </li>
 

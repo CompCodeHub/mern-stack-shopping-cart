@@ -45,6 +45,10 @@ let Header = (props) => {
                 {" "}
                 Coupons{" "}
               </NavLink>{" "}
+              <NavLink to="/orders" className="button" activeclassname="true">
+                {" "}
+                My Orders{" "}
+              </NavLink>{" "}
             </>
           )}
         </div>

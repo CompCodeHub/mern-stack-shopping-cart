@@ -51,4 +51,21 @@ cartRouter.get("/api/cart/:userId", async (req, res) => {
   }
 });
 
+cartRouter.delete("/api/cart/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const cart = await Cart.findOneAndDelete({ userId });
+    if (cart) {
+      return res
+        .status(200)
+        .json({ message: "Cart deleted successfully!", cart });
+    } else {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: "Couldn't delete cart" });
+  }
+});
+
 module.exports = cartRouter;
