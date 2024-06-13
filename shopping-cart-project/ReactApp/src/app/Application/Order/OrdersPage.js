@@ -4,6 +4,8 @@ import {
   CancelOrderAction,
   FetchOrders,
 } from "../../../state/Order/orderAction";
+import { FetchUserCart, SaveCartToDB } from "../../../state/Cart/cartAction";
+import { useNavigate } from "react-router-dom";
 
 const OrdersPage = () => {
   // Get access to order states
@@ -13,12 +15,35 @@ const OrdersPage = () => {
   // Get access to user state
   const user = useSelector((store) => store.userReducer.user);
 
+  // for navigation
+  const navigate = useNavigate();
+
   // for dispatching actions
   const dispatch = useDispatch();
 
   // Cancel order function
   const cancelOrder = (orderId) => {
     dispatch(CancelOrderAction(orderId));
+  };
+
+  // Re-Order function
+  const reOrder = (orderId) => {
+    // Find the order
+    const order = orders.find((order) => order._id == orderId);
+
+    // Set new items
+    const reOrderItems = order.items.map((item) => ({
+      product: item.product,
+      quantity: item.quantity,
+    }));
+
+    // Save cart
+    dispatch(SaveCartToDB(user._id, reOrderItems));
+
+    // navigate to checkout
+    setTimeout(() => {
+      navigate("/cart");
+    }, 1000);
   };
 
   useEffect(() => {
@@ -37,7 +62,7 @@ const OrdersPage = () => {
             <th scope="col">Date</th>
             <th scope="col">Amount</th>
             <th scope="col">Status</th>
-            <th scope="col">Action</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -66,15 +91,23 @@ const OrdersPage = () => {
                 </span>
               </td>
               <td>
-                <button
-                  disabled={
-                    order.status === "DELIVERED" || order.status === "CANCELLED"
-                  }
-                  className="btn btn-sm btn-danger"
-                  onClick={() => cancelOrder(order._id)}
-                >
-                  Cancel
-                </button>
+                {(order.status === "DELIVERED" ||
+                  order.status === "CANCELLED") && (
+                  <button
+                    className="btn btn-sm btn-secondary"
+                    onClick={() => reOrder(order._id)}
+                  >
+                    Re-Order
+                  </button>
+                )}
+                {order.status === "IN TRANSIT" && (
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => cancelOrder(order._id)}
+                  >
+                    Cancel
+                  </button>
+                )}
               </td>
             </tr>
           ))}
