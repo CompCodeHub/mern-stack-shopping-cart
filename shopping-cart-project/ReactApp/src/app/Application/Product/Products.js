@@ -17,8 +17,10 @@ const Products = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(FetchProducts());
-  }, []);
+    if(products.length === 0){
+      dispatch(FetchProducts());
+    }
+  }, [products]);
 
   return (
     <div className="container">

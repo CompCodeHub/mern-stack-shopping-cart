@@ -22,16 +22,16 @@ const ShoppingCart = () => {
   const user = useSelector((store) => store.userReducer.user);
 
   // Get current cart items from store
-  const cartItems = useSelector((store) => store.cartReducer.cart.items)
+  const cartItems = useSelector((store) => store.cartReducer.cart.items);
 
   useEffect(() => {
     // fetch user cart if it is not dummy
-    if (user && user._id && cartItems.length === 0) {
+    if (user && user._id) {
       dispatch(FetchUserCart(user._id));
     }
 
     // if adding product to cart
-    if(productId){
+    if (productId) {
       dispatch(AddToCart(productId, quantity));
     }
   }, [user]);

@@ -10,7 +10,7 @@ const orderReducer = (state = initialState, action) => {
     case actionTypes.LOAD_ORDERS:
       return {
         ...state,
-        orders: action.payload,
+        orders: action.payload.reverse(),
         loaded: true,
       };
     case actionTypes.PLACE_ORDER:

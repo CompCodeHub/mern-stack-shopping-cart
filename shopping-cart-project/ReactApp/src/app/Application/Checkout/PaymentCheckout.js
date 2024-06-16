@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { PlaceOrderAction } from "../../../state/Order/orderAction";
 import { useSelector } from "react-redux";
 import { ClearCart, ClearCartFromDB } from "../../../state/Cart/cartAction";
+import OrderSummary from "../Order/OrderSummary";
 
 const PaymentCheckout = ({ items }) => {
   // Get search params
@@ -116,7 +117,7 @@ const PaymentCheckout = ({ items }) => {
 
     // clear cart
     dispatch(ClearCartFromDB(user._id));
-    dispatch(ClearCart())
+    dispatch(ClearCart());
 
     setTimeout(() => {
       // reset payment message
@@ -128,49 +129,16 @@ const PaymentCheckout = ({ items }) => {
   };
 
   return (
-    <div className="card">
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item">
-          <h2>Order Summary</h2>
-        </li>
-
-        <li className="list-group-item">
-          <div className="row">
-            <div className="col">Items</div>
-            <div className="col">${subTotal}</div>
-          </div>
-          <div className="row">
-            <div className="col">Discount</div>
-            <div className="col">
-              ${discountAmount}({discount}%)
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">Shipping</div>
-            <div className="col">${shipping}</div>
-          </div>
-          <div className="row">
-            <div className="col">Taxes</div>
-            <div className="col">${tax}</div>
-          </div>
-          <div className="row">
-            <div className="col">Total</div>
-            <div className="col">${total}</div>
-          </div>
-        </li>
-
-        <li className="list-group-item">
-          <Link className="btn btn-outline-dark" onClick={makePayment}>
-            Pay Now
-          </Link>
-        </li>
-        {paymentMessage && (
-          <li className="list-group-item">
-            <div className="alert alert-success">{paymentMessage}</div>
-          </li>
-        )}
-      </ul>
-    </div>
+    <OrderSummary
+      subTotal={subTotal}
+      discountAmount={discountAmount}
+      discount={discount}
+      shipping={shipping}
+      tax={tax}
+      total={total}
+      makePayment={makePayment}
+      paymentMessage={paymentMessage}
+    />
   );
 };
 export default PaymentCheckout;

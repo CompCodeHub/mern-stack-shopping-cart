@@ -15,7 +15,7 @@ orderRouter.get("/api/orders/:userId", async (req, res) => {
       const timeDifference = currentDate - orderDate;
       const daysDifference = timeDifference / (1000 * 3600 * 24);
 
-      if (daysDifference > 2 && order.status !== "DELIVERED") {
+      if (daysDifference > 2 && order.status !== "CANCELLED" && order.status != "DELIVERED") {
         order.status = "DELIVERED";
         await order.save();
       }

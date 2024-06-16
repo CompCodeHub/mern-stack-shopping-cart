@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { FetchProducts } from "../../../state/Product/productAction";
 import {
+  ClearCartFromDB,
   RemoveFromCart,
   SaveCartToDB,
   UpdateCartQuantity,
@@ -63,6 +64,14 @@ const CartList = () => {
     mapCartItemsToProducts();
   }, [items, products]);
 
+  const saveCart = () => {
+    if (items.length === 0) {
+      dispatch(ClearCartFromDB(user._id));
+    } else {
+      dispatch(SaveCartToDB(user._id, items));
+    }
+  };
+
   return (
     <div>
       <div className="row">
@@ -72,7 +81,7 @@ const CartList = () => {
         <div className="col-md-6">
           <Link
             className="btn btn-outline-dark float-end"
-            onClick={() => dispatch(SaveCartToDB(user._id, items))}
+            onClick={saveCart}
           >
             Save Cart
           </Link>

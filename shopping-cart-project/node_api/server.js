@@ -11,6 +11,7 @@ const userRouter = require("./Routers/userRoute");
 const proudctRouter = require("./Routers/productRoute");
 const cartRouter = require("./Routers/cartRoute");
 const orderRouter = require("./Routers/orderRoute");
+const reviewRouter = require("./Routers/reviewRoute");
 
 global.rootDir = __dirname;
 
@@ -20,6 +21,7 @@ const userApp = express();
 const proudctApp = express();
 const cartApp = express();
 const orderApp = express();
+const reviewApp = express();
 
 app.use(cors()); //enabling cross origin resource sharing at root level
 //setting up the middleware static to handle all the static files we need to serve to client
@@ -45,6 +47,9 @@ cartApp.use(cartRouter);
 
 app.use("/order", orderApp);
 orderApp.use(orderRouter);
+
+app.use("/review", reviewApp);
+reviewApp.use(reviewRouter);
 
 app.use("/", defaultRouter);
 

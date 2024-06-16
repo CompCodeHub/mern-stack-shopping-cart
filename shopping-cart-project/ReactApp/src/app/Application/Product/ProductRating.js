@@ -1,7 +1,7 @@
 import React from "react";
 
 // Responsible for rendering rating stars on product card
-const Rating = (props) => {
+const ProductRating = (props) => {
   return (
     <React.Fragment>
       <span>
@@ -13,6 +13,7 @@ const Rating = (props) => {
               ? "bi bi-star-half"
               : "bi bi-star"
           }
+          style={{ color: "gold", fontSize: "1.5rem" }}
         ></i>
       </span>
       <span>
@@ -24,6 +25,7 @@ const Rating = (props) => {
               ? "bi bi-star-half"
               : "bi bi-star"
           }
+          style={{ color: "gold", fontSize: "1.5rem" }}
         ></i>
       </span>
       <span>
@@ -35,6 +37,7 @@ const Rating = (props) => {
               ? "bi bi-star-half"
               : "bi bi-star"
           }
+          style={{ color: "gold", fontSize: "1.5rem" }}
         ></i>
       </span>
       <span>
@@ -46,6 +49,7 @@ const Rating = (props) => {
               ? "bi bi-star-half"
               : "bi bi-star"
           }
+          style={{ color: "gold", fontSize: "1.5rem" }}
         ></i>
       </span>
       <span>
@@ -57,10 +61,11 @@ const Rating = (props) => {
               ? "bi bi-star-half"
               : "bi bi-star"
           }
+          style={{ color: "gold", fontSize: "1.5rem" }}
         ></i>
       </span>
     </React.Fragment>
   );
 };
 
-export default Rating;
+export default ProductRating;

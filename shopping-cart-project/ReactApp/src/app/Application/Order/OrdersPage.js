@@ -93,12 +93,14 @@ const OrdersPage = () => {
               <td>
                 {(order.status === "DELIVERED" ||
                   order.status === "CANCELLED") && (
-                  <button
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => reOrder(order._id)}
-                  >
-                    Re-Order
-                  </button>
+                  <>
+                    <button
+                      className="btn btn-sm btn-dark"
+                      onClick={() => reOrder(order._id)}
+                    >
+                      Re-Order
+                    </button>
+                  </>
                 )}
                 {order.status === "IN TRANSIT" && (
                   <button
@@ -106,6 +108,14 @@ const OrdersPage = () => {
                     onClick={() => cancelOrder(order._id)}
                   >
                     Cancel
+                  </button>
+                )}
+                {order.status === "DELIVERED" && (
+                  <button
+                    className="btn btn-sm btn-dark"
+                    onClick={() => navigate(`/orders/${order._id}`)}
+                  >
+                    Review Products
                   </button>
                 )}
               </td>
