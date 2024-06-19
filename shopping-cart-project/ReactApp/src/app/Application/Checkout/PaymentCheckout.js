@@ -5,6 +5,7 @@ import { PlaceOrderAction } from "../../../state/Order/orderAction";
 import { useSelector } from "react-redux";
 import { ClearCart, ClearCartFromDB } from "../../../state/Cart/cartAction";
 import OrderSummary from "../Order/OrderSummary";
+import { RemoveNotificationByUrl } from "../../../state/Notification/notificationAction";
 
 const PaymentCheckout = ({ items }) => {
   // Get search params
@@ -122,6 +123,9 @@ const PaymentCheckout = ({ items }) => {
     setTimeout(() => {
       // reset payment message
       setPaymentMessage(null);
+
+      // remove notification
+      dispatch(RemoveNotificationByUrl("cart"));
 
       // navigate to orders
       navigate("/orders");

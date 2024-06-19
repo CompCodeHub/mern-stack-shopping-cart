@@ -1,4 +1,5 @@
 //action - is an object with two properties - type and payload
+import { LoadNotificationsFromDB } from "../Notification/notificationAction";
 import * as actionTypes from "../actionTypes";
 import axios from "axios";
 

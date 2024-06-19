@@ -6,6 +6,11 @@ import {
 } from "../../../state/Order/orderAction";
 import { FetchUserCart, SaveCartToDB } from "../../../state/Cart/cartAction";
 import { useNavigate } from "react-router-dom";
+import {
+  AddNotification,
+  RemoveNotificationByUrl,
+  RemoveNotificationFromDB,
+} from "../../../state/Notification/notificationAction";
 
 const OrdersPage = () => {
   // Get access to order states
@@ -23,6 +28,15 @@ const OrdersPage = () => {
 
   // Cancel order function
   const cancelOrder = (orderId) => {
+    // create notification
+    const notification = {
+      message: `Order with id=${orderId} has been cancelled`,
+      url: `orders`,
+      user: user._id,
+    };
+
+    dispatch(AddNotification(notification));
+
     dispatch(CancelOrderAction(orderId));
   };
 
@@ -40,8 +54,19 @@ const OrdersPage = () => {
     // Save cart
     dispatch(SaveCartToDB(user._id, reOrderItems));
 
+    // create notification
+    const notification = {
+      message: `Order with id=${orderId} has been added to cart`,
+      url: `cart`,
+      user: user._id,
+    };
+
+    // dispatch add notification action
+    dispatch(AddNotification(notification));
+
     // navigate to checkout
     setTimeout(() => {
+      dispatch(FetchUserCart(user._id));
       navigate("/cart");
     }, 1000);
   };

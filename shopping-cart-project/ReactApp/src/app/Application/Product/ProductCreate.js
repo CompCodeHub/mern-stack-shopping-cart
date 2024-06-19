@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SaveProductToDB } from "../../../state/Product/productAction";
+import { AddNotification } from "../../../state/Notification/notificationAction";
+import { useSelector } from "react-redux";
 
 const ProductCreate = () => {
   // for navigation
@@ -9,6 +11,9 @@ const ProductCreate = () => {
 
   // for dispatching actions to store
   const dispatch = useDispatch();
+
+  // Get access to user from store
+  const user = useSelector((store) => store.userReducer.user);
 
   // Local states for form
   const [name, setName] = useState("");
@@ -30,7 +35,6 @@ const ProductCreate = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
     if (!name || !price || !description || !category || !image) {
       setError("Please fill all the fields");
     } else {
@@ -51,6 +55,16 @@ const ProductCreate = () => {
 
       // dispatch action to save product to DB
       dispatch(SaveProductToDB(product));
+
+      // Create notification
+      const notification = {
+        message: `Product ${name} created successfully`,
+        url: "products",
+        user: user._id,
+      };
+
+      // dispatch add notification
+      dispatch(AddNotification(notification));
 
       // navigate to products page
       navigate("/products");

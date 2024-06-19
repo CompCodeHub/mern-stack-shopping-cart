@@ -8,6 +8,7 @@ import {
   SaveCartToDB,
   UpdateCartQuantity,
 } from "../../../state/Cart/cartAction";
+import { RemoveNotificationByUrl } from "../../../state/Notification/notificationAction";
 
 const CartList = () => {
   // Get access to cart items from the store
@@ -18,6 +19,10 @@ const CartList = () => {
 
   // State for cart items
   const [cartItems, setCartItems] = useState([]);
+
+  const notifications = useSelector(
+    (store) => store.notificationReducer.notifications
+  );
 
   // Get access to products from store
   const products = useSelector((store) => store.productReducer.products);
@@ -57,7 +62,7 @@ const CartList = () => {
       // Map cart items to products
       mapCartItemsToProducts();
     }
-  }, [items, products, dispatch]);
+  }, [items, products]);
 
   useEffect(() => {
     // Map cart items to products whenever items or products change
@@ -67,6 +72,7 @@ const CartList = () => {
   const saveCart = () => {
     if (items.length === 0) {
       dispatch(ClearCartFromDB(user._id));
+      dispatch(RemoveNotificationByUrl("/cart"));
     } else {
       dispatch(SaveCartToDB(user._id, items));
     }
@@ -79,10 +85,7 @@ const CartList = () => {
           <h2>Your Cart</h2>
         </div>
         <div className="col-md-6">
-          <Link
-            className="btn btn-outline-dark float-end"
-            onClick={saveCart}
-          >
+          <Link className="btn btn-outline-dark float-end" onClick={saveCart}>
             Save Cart
           </Link>
         </div>
@@ -132,7 +135,10 @@ const CartList = () => {
                 <div className="col-md-2">
                   <Link
                     className="btn btn-outline-dark"
-                    onClick={() => dispatch(RemoveFromCart(item.productId))}
+                    onClick={() => {
+                      dispatch(RemoveFromCart(item.productId)) 
+                      dispatch(RemoveNotificationByUrl("cart"))
+                    }}
                   >
                     <i className="bi bi-trash"></i>
                   </Link>

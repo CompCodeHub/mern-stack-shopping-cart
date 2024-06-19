@@ -25,10 +25,6 @@ const ShoppingCart = () => {
   const cartItems = useSelector((store) => store.cartReducer.cart.items);
 
   useEffect(() => {
-    // fetch user cart if it is not dummy
-    if (user && user._id) {
-      dispatch(FetchUserCart(user._id));
-    }
 
     // if adding product to cart
     if (productId) {

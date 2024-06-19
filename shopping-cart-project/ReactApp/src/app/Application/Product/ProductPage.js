@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import ProductRating from "./ProductRating";
+import { useDispatch } from 'react-redux';
+import { AddToCart } from "../../../state/Cart/cartAction";
+import { AddNotification } from "../../../state/Notification/notificationAction";
 
 const ProductPage = () => {
   // Get products from store
@@ -11,6 +14,12 @@ const ProductPage = () => {
   // Get product id from params
   const params = useParams();
   const productId = params["id"];
+
+  // Get access to user
+  const user = useSelector((store) => store.userReducer.user);
+
+  // For dispatching actions
+  const dispatch = useDispatch();
 
   // Local state for product details
   const [product, setProduct] = useState(null);
@@ -29,7 +38,18 @@ const ProductPage = () => {
 
   // Handles adding to cart
   const addToCartHandler = () => {
-      navigate(`/cart/${productId}?quantity=${quantity}`);
+      // Add to Cart
+      dispatch(AddToCart(product._id, quantity))
+
+      // create notification
+      const notification = {
+        message: `${product.name} added to cart`,
+        url: `cart`,
+        user: user._id,
+      };
+
+      // Dispatch notification
+      dispatch(AddNotification(notification))
   };
 
   return (

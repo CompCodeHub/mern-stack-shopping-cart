@@ -8,15 +8,16 @@ const initialState = {
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOAD_ORDERS:
+      const recievedOrders = action.payload.reverse();
       return {
         ...state,
-        orders: action.payload.reverse(),
+        orders: recievedOrders,
         loaded: true,
       };
     case actionTypes.PLACE_ORDER:
       return {
         ...state,
-        orders: [...state.orders, action.payload],
+        orders: [action.payload, ...state.orders],
       };
     case actionTypes.CANCEL_ORDER:
       return {

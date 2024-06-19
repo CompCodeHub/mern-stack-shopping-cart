@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FetchProducts } from "../../../state/Product/productAction";
 import { useNavigate, Link } from "react-router-dom";
+import { AddNotification, LoadNotificationsFromDB } from "../../../state/Notification/notificationAction";
+import { AddToCart, FetchUserCart } from "../../../state/Cart/cartAction";
 
 const Products = () => {
   // Get products from the store
@@ -10,17 +12,37 @@ const Products = () => {
   // Get user from store
   const user = useSelector((store) => store.userReducer.user);
 
+  const notifications = useSelector(
+    (store) => store.notificationReducer.notifications
+  );
+
   // for navigation
   const navigate = useNavigate();
 
   // Get dispatch function
   const dispatch = useDispatch();
 
+  const addToCartHandler = (product) => {
+    // Add product to cart
+    dispatch(AddToCart(product._id, 1));
+
+    // create notification
+    const notification = {
+      message: `${product.name} added to cart`,
+      url: `cart`,
+      user: user._id,
+    };
+
+    // Add notification to store
+    dispatch(AddNotification(notification))
+
+  };
+
   useEffect(() => {
     if(products.length === 0){
       dispatch(FetchProducts());
     }
-  }, [products]);
+  }, [products, user]);
 
   return (
     <div className="container">
@@ -60,7 +82,7 @@ const Products = () => {
                     <p className="card-text">Price: ${product.price}</p>
                   </Link>
                   <a
-                    onClick={() => navigate(`/cart/${product._id}?quantity=1`)}
+                    onClick={() => addToCartHandler(product)}
                     className="btn btn-primary mt-4"
                   >
                     Add to Cart

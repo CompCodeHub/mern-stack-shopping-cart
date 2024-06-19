@@ -1,6 +1,7 @@
 const express = require("express");
 const orderRouter = express.Router();
 const Order = require("../DataModels/orderDataModel");
+const { createNotification } = require("./notificationRoute");
 
 // route for fetching user orders
 orderRouter.get("/api/orders/:userId", async (req, res) => {
@@ -10,17 +11,32 @@ orderRouter.get("/api/orders/:userId", async (req, res) => {
     // Current date and time
     const currentDate = new Date();
 
+    // for counting number of delivered orders
+    let deliveredCount = 0;
+
     for (let order of orders) {
       const orderDate = new Date(order.paidAt); // Assuming the order date is stored in a field named 'date'
       const timeDifference = currentDate - orderDate;
       const daysDifference = timeDifference / (1000 * 3600 * 24);
 
-      if (daysDifference > 2 && order.status !== "CANCELLED" && order.status != "DELIVERED") {
+      if (
+        daysDifference > 2 &&
+        order.status !== "CANCELLED" &&
+        order.status != "DELIVERED"
+      ) {
         order.status = "DELIVERED";
+        deliveredCount++;
         await order.save();
       }
     }
 
+    // create notification for delivered orders
+    if (deliveredCount > 0) {
+      const userId = req.params.userId;
+      const message = `You have ${deliveredCount} order(s) delivered.`;
+      const url = "orders";
+      await createNotification(userId, message, url);
+    }
 
     return res.status(200).json(orders);
   } catch (error) {
