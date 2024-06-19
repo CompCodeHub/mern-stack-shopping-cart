@@ -16,7 +16,10 @@ const Review = () => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:9000/review/api/reviews/${productId}`
+          `http://localhost:9000/review/api/reviews/${productId}`,
+          {
+            withCredentials: true,
+          }
         );
         setReviews(response.data);
       } catch (error) {
@@ -40,15 +43,15 @@ const Review = () => {
           No reviews available for this product
         </div>
       ) : (
-        <ul className="list-group list-group-flush">{
-          reviews.map((review) => (
+        <ul className="list-group list-group-flush">
+          {reviews.map((review) => (
             <li key={review._id} className="list-group-item">
               <strong>{review.name}</strong>
               <ProductRating rating={review.rating} />
               <p>{review.comment}</p>
             </li>
-          ))
-        }</ul>
+          ))}
+        </ul>
       )}
     </div>
   );

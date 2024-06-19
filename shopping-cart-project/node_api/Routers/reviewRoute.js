@@ -1,10 +1,10 @@
 const express = require("express");
 const reviewRouter = express.Router();
-
+const { authenticate } = require("../middlewares/authMiddleware");
 const { Review } = require("../DataModels/reviewDataModel");
 
 // Route for saving user review
-reviewRouter.post("/api/reviews", async (req, res) => {
+reviewRouter.post("/api/reviews",authenticate,  async (req, res) => {
   const { rating, comment, user, product, name } = req.body;
 
   try {
@@ -28,7 +28,7 @@ reviewRouter.post("/api/reviews", async (req, res) => {
 });
 
 // Route for fetching all reviews for a product
-reviewRouter.get("/api/reviews/:product", async (req, res) => {
+reviewRouter.get("/api/reviews/:product", authenticate, async (req, res) => {
   const { product } = req.params;
 
   try {
@@ -40,7 +40,7 @@ reviewRouter.get("/api/reviews/:product", async (req, res) => {
 });
 
 // Route for fetching a review for a given user and product
-reviewRouter.get("/api/reviews/:product/:user", async (req, res) => {
+reviewRouter.get("/api/reviews/:product/:user", authenticate, async (req, res) => {
   const { product, user } = req.params;
 
   try {

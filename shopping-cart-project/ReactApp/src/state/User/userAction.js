@@ -46,6 +46,7 @@ export const SaveUserToDBUsingFetch = (newUser) => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(newUser),
       })
       .then((response) => response.json())
@@ -61,7 +62,9 @@ export const SaveUserToDBUsingFetch = (newUser) => {
 export const SaveUserHobby = (userName, hobby) => {
   return (dispatch) => {
     axios
-      .post("http://localhost:9000/user/api/hobbies", { userName, hobby })
+      .post("http://localhost:9000/user/api/hobbies", { userName, hobby }, {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res.data);
         dispatch(AddHobbyToUser(hobby));

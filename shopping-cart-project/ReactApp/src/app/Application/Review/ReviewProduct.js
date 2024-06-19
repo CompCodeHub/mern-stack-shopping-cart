@@ -41,13 +41,17 @@ const ReviewProduct = (props) => {
   const submitReview = async (productId) => {
     // Submit review
     try {
-      await axios.post(`http://localhost:9000/review/api/reviews/`, {
-        user: user._id,
-        rating: productRatings[productId],
-        comment: productReviews[productId],
-        product: productId,
-        name: user.userName
-      });
+      await axios.post(
+        `http://localhost:9000/review/api/reviews/`,
+        {
+          user: user._id,
+          rating: productRatings[productId],
+          comment: productReviews[productId],
+          product: productId,
+          name: user.userName,
+        },
+        { withCredentials: true }
+      );
     } catch (error) {
       console.error("Failed to submit review", error);
     }
@@ -83,7 +87,10 @@ const ReviewProduct = (props) => {
           productsToReview.map(async (product) => {
             try {
               const response = await axios.get(
-                `http://localhost:9000/review/api/reviews/${product._id}/${user._id}`
+                `http://localhost:9000/review/api/reviews/${product._id}/${user._id}`,
+                {
+                  withCredentials: true,
+                }
               );
               const { rating, comment } = response.data;
               initialRatings[product._id] = rating || 0; // Default rating if none found

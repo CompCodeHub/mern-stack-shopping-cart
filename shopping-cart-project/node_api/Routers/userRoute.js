@@ -1,5 +1,7 @@
 let express = require("express");
 let userRouter = express.Router({}); //
+const { generateToken } = require("../Services/tokenGenerator");
+const { authenticate } = require("../middlewares/authMiddleware");
 
 let UserDataModel = require("../DataModels/UserDataModel"); //this gives access to all the methods defined in mongoose to access mongo db data
 
@@ -7,13 +9,13 @@ let UserDataModel = require("../DataModels/UserDataModel"); //this gives access 
 //initialize the userModel, if no validation error, then use the mongoose method to save user
 userRouter.post("/api/signinup", (req, res) => {
   //localhost:9000/user/api/signinup
-  console.log(req.body); //json data posted from API in body
+ //json data posted from API in body
   //initialize the userSchema
 
   UserDataModel.findOne({ userName: req.body.userName })
     .then((existingUser) => {
       if (existingUser) {
-        console.log("sigin in success ", existingUser);
+        generateToken(res, existingUser._id)
         res.send(existingUser);
       } else {
         //if user object is not present in users collection so we need to create
@@ -25,7 +27,7 @@ userRouter.post("/api/signinup", (req, res) => {
           .save()
           .then((newUser) => {
             //will get _id once document is created
-            console.log("successful signup ", newUser);
+            generateToken(res, newUser._id)
             res.send(newUser);
           })
           .catch((err1) => {
@@ -41,7 +43,7 @@ userRouter.post("/api/signinup", (req, res) => {
 });
 
 //code to fetch all the users from user collection and return back
-userRouter.get("/api/users", (req, res) => {
+userRouter.get("/api/users", authenticate, (req, res) => {
   UserDataModel.find()
     .then((allusers) => {
       res.send(allusers);
@@ -51,7 +53,7 @@ userRouter.get("/api/users", (req, res) => {
     });
 });
 
-userRouter.post("/api/hobbies", async (req, res) => {
+userRouter.post("/api/hobbies", authenticate, async (req, res) => {
   const { userName, hobby } = req.body;
 
   try {
@@ -76,7 +78,7 @@ userRouter.post("/api/hobbies", async (req, res) => {
   }
 });
 
-userRouter.get("/api/hobbies", async (req, res) => {
+userRouter.get("/api/hobbies", authenticate, async (req, res) => {
   const { userName } = req.body;
 
   try {

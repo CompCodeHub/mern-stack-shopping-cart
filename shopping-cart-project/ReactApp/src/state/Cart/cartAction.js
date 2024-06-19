@@ -35,11 +35,15 @@ export const ClearCart = () => {
   };
 };
 
-
 export const FetchUserCart = (userId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`http://localhost:9000/cart/api/cart/${userId}`);
+      const response = await axios.get(
+        `http://localhost:9000/cart/api/cart/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
       dispatch(LoadUserCart(userId, response.data.cart.products));
     } catch (error) {
       //console.error(error);
@@ -47,23 +51,30 @@ export const FetchUserCart = (userId) => {
   };
 };
 
-
 export const SaveCartToDB = (userId, products) => {
-    return async (dispatch) => {
-        try {
-          const response = await axios.post("http://localhost:9000/cart/api/cart", {userId, products});
-        } catch (error) {
-          console.error(error);
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:9000/cart/api/cart",
+        { userId, products },
+        {
+          withCredentials: true,
         }
-      };
-}
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 export const ClearCartFromDB = (userId) => {
-   return async (dispatch) => {
-       try {
-         await axios.delete(`http://localhost:9000/cart/api/cart/${userId}`);
-       } catch (error) {
-         console.error(error);
-       }
-     };
-}
+  return async (dispatch) => {
+    try {
+      await axios.delete(`http://localhost:9000/cart/api/cart/${userId}`, {
+        withCredentials: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};

@@ -2,9 +2,10 @@ const express = require("express");
 const orderRouter = express.Router();
 const Order = require("../DataModels/orderDataModel");
 const { createNotification } = require("./notificationRoute");
+const { authenticate } = require("../middlewares/authMiddleware")
 
 // route for fetching user orders
-orderRouter.get("/api/orders/:userId", async (req, res) => {
+orderRouter.get("/api/orders/:userId",authenticate, async (req, res) => {
   try {
     const orders = await Order.find({ buyer: req.params.userId });
 
@@ -45,7 +46,7 @@ orderRouter.get("/api/orders/:userId", async (req, res) => {
 });
 
 // route for saving order
-orderRouter.post("/api/orders", async (req, res) => {
+orderRouter.post("/api/orders",authenticate, async (req, res) => {
   try {
     const order = new Order(req.body);
     await order.save();
@@ -56,7 +57,7 @@ orderRouter.post("/api/orders", async (req, res) => {
 });
 
 // route for cancelling order
-orderRouter.delete("/api/orders/:orderId", async (req, res) => {
+orderRouter.delete("/api/orders/:orderId", authenticate, async (req, res) => {
   try {
     const orderId = req.params.orderId;
 

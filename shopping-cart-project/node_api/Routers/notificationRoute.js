@@ -1,27 +1,32 @@
 const express = require("express");
 const notificationRouter = express.Router();
 const Notification = require("../DataModels/notificationDataModel");
+const { authenticate } = require("../middlewares/authMiddleware");
 
 // route for fetching unread notifications
-notificationRouter.get("/api/notifications/:userId", async (req, res) => {
-  const userId = req.params.userId;
-  try {
-    const notifications = await Notification.find({
-      user: userId,
-    });
-    return res.status(200).json(notifications);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
+notificationRouter.get(
+  "/api/notifications/:userId",
+  authenticate,
+  async (req, res) => {
+    const userId = req.params.userId;
+    try {
+      const notifications = await Notification.find({
+        user: userId,
+      });
+      return res.status(200).json(notifications);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
   }
-});
+);
 
 // route for deleting notifications after they are read
-notificationRouter.delete("/api/notifications/:url", async (req, res) => {
+notificationRouter.delete("/api/notifications/:url", authenticate, async (req, res) => {
   try {
     // delete all notifcations with the given url
     const url = req.params.url;
     const notification = await Notification.deleteMany({ url });
-    
+
     return res.status(200).json(notification);
   } catch (err) {
     return res.status(500).json({ error: err.message });

@@ -1,14 +1,16 @@
 const express = require("express");
 const productRouter = express.Router();
+const { authenticate } = require("../middlewares/authMiddleware");
 
 const { Product } = require("../DataModels/productDataModel");
 
 const { uploadToCloudinary } = require("../Services/cloudinary");
 
 // route for create product
-productRouter.post("/api/products", async (req, res) => {
+productRouter.post("/api/products", authenticate, async (req, res) => {
   // Extract product details from request body
-  const { name, price, description, image, rating, category, quantity } = req.body;
+  const { name, price, description, image, rating, category, quantity } =
+    req.body;
 
   try {
     // Check if product already exists
@@ -34,7 +36,7 @@ productRouter.post("/api/products", async (req, res) => {
           image: uploadedImageData,
           rating: rating ? rating : 0,
           category: category ? category : "General",
-          quantity
+          quantity,
         });
         await newProduct.save();
         return res
@@ -48,7 +50,7 @@ productRouter.post("/api/products", async (req, res) => {
 });
 
 // route for get all products
-productRouter.get("/api/products", async (req, res) => {
+productRouter.get("/api/products", authenticate, async (req, res) => {
   try {
     // find all products
     const products = await Product.find();

@@ -6,8 +6,10 @@ const {
   deleteNotification,
 } = require("./notificationRoute");
 
+const { authenticate } = require("../middlewares/authMiddleware");
+
 // route for adding products to the cart
-cartRouter.post("/api/cart", async (req, res) => {
+cartRouter.post("/api/cart", authenticate, async (req, res) => {
   // Extract cart details from request body
   const { userId, products } = req.body;
 
@@ -39,7 +41,7 @@ cartRouter.post("/api/cart", async (req, res) => {
   }
 });
 
-cartRouter.get("/api/cart/:userId", async (req, res) => {
+cartRouter.get("/api/cart/:userId", authenticate, async (req, res) => {
   // Extract userid from request body
   const { userId } = req.params;
 
@@ -69,7 +71,7 @@ cartRouter.get("/api/cart/:userId", async (req, res) => {
   }
 });
 
-cartRouter.delete("/api/cart/:userId", async (req, res) => {
+cartRouter.delete("/api/cart/:userId", authenticate, async (req, res) => {
   const { userId } = req.params;
 
   try {

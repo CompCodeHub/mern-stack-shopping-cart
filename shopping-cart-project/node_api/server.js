@@ -5,6 +5,7 @@ const app = express(); //invoking the class to create express app server
 require("dotenv").config();
 const port = 9000; //
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const defaultRouter = require("./Routers/defaultRoute");
 const adminRouter = require("./Routers/adminRoute");
 const userRouter = require("./Routers/userRoute");
@@ -25,7 +26,8 @@ const orderApp = express();
 const reviewApp = express();
 const notificationApp = express();
 
-app.use(cors()); //enabling cross origin resource sharing at root level
+app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:9090", credentials: true })); //enabling cross origin resource sharing at root level
 //setting up the middleware static to handle all the static files we need to serve to client
 // serve static files like images css using static middleware
 app.use("/static", express.static("public")); //localhost:9000/static/alert.js

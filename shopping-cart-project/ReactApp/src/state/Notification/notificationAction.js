@@ -33,7 +33,10 @@ export const LoadNotificationsFromDB = (userId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/notification/api/notifications/${userId}`
+        `http://localhost:9000/notification/api/notifications/${userId}`,
+        {
+          withCredentials: true,
+        }
       );
       dispatch(LoadNotifications(response.data));
     } catch (error) {
@@ -46,7 +49,10 @@ export const RemoveNotificationFromDB = (url) => {
   return async (dispatch) => {
     try {
       await axios.delete(
-        `http://localhost:9000/notification/api/notifications/${url}`
+        `http://localhost:9000/notification/api/notifications/${url}`,
+        {
+          withCredentials: true,
+        }
       );
       dispatch(RemoveNotificationByUrl(url));
     } catch (error) {
