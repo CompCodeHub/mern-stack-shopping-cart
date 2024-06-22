@@ -67,3 +67,6 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
 - **Cloudinary:** Cloud-based service for image upload and storage.
 - **Axios:** For making API calls to server using client.
 - **JWT:** JSON Web Tokens for user authentication and authorization.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
