@@ -35,11 +35,28 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
    npm install
 
 ## Configuration
+- **Important:** You need a cloudinary account for getting the below credentials. Sign up on https://cloudinary.com/ to get yours.
 - **Add the following envorinment variables to your .env file in the node_api folder:**
   ```bash
   CLOUD_NAME=(cloudinary cloud name)
   API_KEY=(cloudinary api key)
   API_SECRET=(cloudinary api secret)
-  JWT_SECRET=(any secret for jwt authentication)
+  JWT_SECRET=(any secret text for jwt authentication)
   NODE_ENV=(production or development)
 
+## Usage
+1. **Run the server**
+   ```bash
+   cd node_api
+   npm start
+3. **Run the client**
+   ```bash
+   cd ReactApp
+   npm start
+3. **Open your web browser at:** http://localhost:9090/
+
+## Techonologies
+- **MongoDB:** NoSQL database for storing product, user, reviews, notifications, and order data.
+- **Express:** Web framework for Node.js for building the server-side application.
+- **React:** Frontend library for building the user interface.
+- **Node.js:** JavaScript runtime for the backend server.
