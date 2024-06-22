@@ -57,6 +57,13 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
 
 ## Techonologies
 - **MongoDB:** NoSQL database for storing product, user, reviews, notifications, and order data.
+- **Mongoose:** Object Document Model for ease of use with Node.js and MongoDB.
 - **Express:** Web framework for Node.js for building the server-side application.
 - **React:** Frontend library for building the user interface.
+- **React Router:** Library to manage routing on the client application.
+- **BootStrap:** CSS framework used for building beautiful user interfaces.
 - **Node.js:** JavaScript runtime for the backend server.
+- **Redux:** State management library for managing application state.
+- **Cloudinary:** Cloud-based service for image upload and storage.
+- **Axios:** For making API calls to server using client.
+- **JWT:** JSON Web Tokens for user authentication and authorization.
