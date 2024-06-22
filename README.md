@@ -19,9 +19,11 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
 - **Notifications** - Customers or admins can be alerted of their actions whenever there is an important change on the app.
 
 ## Installation
-Instructions on how to install and set up your project. For example:
+1. Clone the repository
+   ```bash
+    git clone https://github.com/yourusername/yourproject.git
+    cd yourproject
+    npm install
 
-```bash
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
-npm install
+3. 
+
