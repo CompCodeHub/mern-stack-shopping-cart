@@ -10,3 +10,8 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
 
 ## Installation
 Instructions on how to install and set up your project. For example:
+
+```bash
+git clone https://github.com/yourusername/yourproject.git
+cd yourproject
+npm install
