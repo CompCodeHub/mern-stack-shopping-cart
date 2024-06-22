@@ -60,6 +60,7 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
 - **Mongoose:** Object Document Model for ease of use with Node.js and MongoDB.
 - **Express:** Web framework for Node.js for building the server-side application.
 - **React:** Frontend library for building the user interface.
+- **Webpack:** Javascript module bundler to bundle React application files.
 - **React Router:** Library to manage routing on the client application.
 - **BootStrap:** CSS framework used for building beautiful user interfaces.
 - **Node.js:** JavaScript runtime for the backend server.
