@@ -7,3 +7,6 @@ This is a full-fledged e-commerce application built using the MERN stack (MongoD
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+
+## Installation
+Instructions on how to install and set up your project. For example:
